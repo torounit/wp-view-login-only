@@ -86,7 +86,6 @@ function vlo_options() {
 		</form>
 	</div>
 <?php
-	return $message;
 }
 
 /**
