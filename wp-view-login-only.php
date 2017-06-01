@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Plugin Name: WP View Login Only
  * Plugin URI: https://github.com/chiilog/wp-view-login-only
  * Description: If you view a website without log in, WordPress redirect to the login page
@@ -7,6 +7,12 @@
  * Author URI: http://chiilog.com/
  * Version: 1.0
  * Text Domain: wp-view-login-only
+ *
+ * @package wp-view-login-only
+ */
+
+/**
+ * Enqueue scripts.
  */
 function vlo_theme_name_script() {
 	wp_enqueue_style( 'wp-view-login-only', plugins_url( 'css/wp-view-login-only.css', __FILE__ ), array(), null );
@@ -14,6 +20,9 @@ function vlo_theme_name_script() {
 }
 add_action( 'login_enqueue_scripts', 'vlo_theme_name_script' );
 
+/**
+ * Redirect not authenticated user.
+ */
 function vlo_view_login_only( $content ) {
 	global $pagenow;
 	if ( ! is_user_logged_in() && ! is_admin() && ( $pagenow != 'wp-login.php' ) && php_sapi_name() !== 'cli' ) {
@@ -22,12 +31,17 @@ function vlo_view_login_only( $content ) {
 }
 add_action( 'init', 'vlo_view_login_only' );
 
+/**
+ * Load translation.
+ */
 function vlo_plugins_loaded() {
 	load_plugin_textdomain( 'wp-view-login-only', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
 add_action( 'init', 'vlo_plugins_loaded' );
 
-// add menubar options
+/**
+ * Add menubar options
+ */
 function vlo_add_menu() {
 	add_options_page(
 		'WP View Login Only',
@@ -39,6 +53,9 @@ function vlo_add_menu() {
 }
 add_action( 'admin_menu', 'vlo_add_menu' );
 
+/**
+ * Option page contents.
+ */
 function vlo_options( $message ) {
 	if ( ! current_user_can( 'activate_plugins' ) ) {
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ), 'wp-view-login-only' );
@@ -72,6 +89,9 @@ function vlo_options( $message ) {
 	return $message;
 }
 
+/**
+ * Option page contents.
+ */
 function vlo_add_login_message() {
 	if ( ! get_option( 'vlo-message-data' ) ) :
 		$message = __( 'Welcome to this site. Please log in to continue', 'wp-view-login-only' );
@@ -83,6 +103,9 @@ function vlo_add_login_message() {
 }
 add_filter( 'login_message', 'vlo_add_login_message' );
 
+/**
+ * Save options.
+ */
 function vlo_init() {
 	$menu = sanitize_option( $_POST['vlo-menu'] );
 	if ( isset( $menu ) && $menu ) :
@@ -105,6 +128,9 @@ function vlo_init() {
 }
 add_action( 'admin_init', 'vlo_init' );
 
+/**
+ * Show admin notices.
+ */
 function vlo_admin_notices() {
 	if ( $messages = get_transient( 'vlo-admin-errors' ) ) :
 ?>
