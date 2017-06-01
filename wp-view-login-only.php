@@ -107,24 +107,20 @@ add_filter( 'login_message', 'vlo_add_login_message' );
  * Save options.
  */
 function vlo_init() {
-	$menu = sanitize_option( $_POST['vlo-menu'] );
-	if ( isset( $menu ) && $menu ) :
-		if ( check_admin_referer( 'vlo-nonce-key', 'vlo-menu' ) ) :
+	if ( check_admin_referer( 'vlo-nonce-key', 'vlo-menu' ) ) {
+
+		if ( ! empty( $_POST['vlo-message-data'] ) ) {
+			$data = sanitize_text_field( wp_unslash( $_POST['vlo-message-data'] ) );
+			update_option( 'vlo-message-data', $data );
 			$e = new WP_Error();
+			$e->add( 'error', __( 'saved the message', 'wp-view-login-only' ) );
+			set_transient( 'vlo-admin-errors', $e->get_error_messages(), 10 );
+		} else {
+			update_option( 'vlo-message-data', '' );
+		}
 
-			$data = sanitize_option( $_POST['vlo-message-data'] );
-
-			if ( isset( $data ) && $data ) :
-				update_option( 'vlo-message-data', $data );
-				$e->add( 'error', __( 'saved the message', 'wp-view-login-only' ) );
-				set_transient( 'vlo-admin-errors', $e->get_error_messages(), 10 );
-			else :
-				update_option( 'vlo-message-data', '' );
-			endif;
-
-			wp_safe_redirect( menu_page_url( 'vlo-menu', false ) );
-		endif;
-	endif;
+		wp_safe_redirect( menu_page_url( 'vlo-menu', false ) );
+	}
 }
 add_action( 'admin_init', 'vlo_init' );
 
