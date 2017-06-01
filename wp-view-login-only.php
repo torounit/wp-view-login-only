@@ -23,7 +23,7 @@ add_action( 'login_enqueue_scripts', 'vlo_theme_name_script' );
 /**
  * Redirect not authenticated user.
  */
-function vlo_view_login_only( $content ) {
+function vlo_view_login_only() {
 	global $pagenow;
 	if ( ! is_user_logged_in() && ! is_admin() && ( $pagenow != 'wp-login.php' ) && php_sapi_name() !== 'cli' ) {
 		auth_redirect();
@@ -56,7 +56,7 @@ add_action( 'admin_menu', 'vlo_add_menu' );
 /**
  * Option page contents.
  */
-function vlo_options( $message ) {
+function vlo_options() {
 	if ( ! current_user_can( 'activate_plugins' ) ) {
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ), 'wp-view-login-only' );
 	}
