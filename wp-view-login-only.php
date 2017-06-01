@@ -58,14 +58,14 @@ add_action( 'admin_menu', 'vlo_add_menu' );
  */
 function vlo_options() {
 	if ( ! current_user_can( 'activate_plugins' ) ) {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ), 'wp-view-login-only' );
+		wp_die( esc_html__( 'You do not have sufficient permissions to access this page.' ), 'wp-view-login-only' );
 	}
 ?>
 
 	<div class="wrap">
-		<h1><?php _e( 'WP View Login Only' , 'wp-view-login-only' ); ?></h1>
+		<h1><?php esc_html_e( 'WP View Login Only' , 'wp-view-login-only' ); ?></h1>
 
-		<p><?php _e( 'Enter the text to be displayed on the login page.Default message is " Welcome to this site. Please log in to continue ".' , 'wp-view-login-only' ) ?></p>
+		<p><?php esc_html_e( 'Enter the text to be displayed on the login page.Default message is " Welcome to this site. Please log in to continue ".' , 'wp-view-login-only' ) ?></p>
 		<form action="" id="vlo-menu-form" method="post">
 			<?php
 			wp_nonce_field( 'vlo-nonce-key', 'vlo-menu' );
@@ -77,12 +77,12 @@ function vlo_options() {
 			?>
 			<table class="form-table permalink-structure">
 				<tr>
-					<th><label for="vlo-message-data"><?php _e( 'message' , 'wp-view-login-only' ) ?></label></th>
+					<th><label for="vlo-message-data"><?php esc_html_e( 'message' , 'wp-view-login-only' ) ?></label></th>
 					<td><textarea name="vlo-message-data" id="vlo-message-data" cols="80" rows="10"><?php echo esc_textarea( $message ); ?></textarea></td>
 				</tr>
 			</table>
 
-			<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="<?php echo esc_attr( __( 'Save Changes', 'wp-view-login-only' ) ); ?>"  /></p>  </form>
+			<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_attr_e( 'Save Changes', 'wp-view-login-only' ); ?>"  /></p>  </form>
 		</form>
 	</div>
 <?php
