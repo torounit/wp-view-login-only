@@ -48,7 +48,7 @@ function vlo_add_menu() {
 		'WP View Login Only',
 		'activate_plugins',
 		'vlo',
-		'vlo_options'
+		'vlo_options_page_content'
 	);
 }
 add_action( 'admin_menu', 'vlo_add_menu' );
@@ -56,7 +56,7 @@ add_action( 'admin_menu', 'vlo_add_menu' );
 /**
  * Option page contents.
  */
-function vlo_options() {
+function vlo_options_page_content() {
 	if ( ! current_user_can( 'activate_plugins' ) ) {
 		wp_die( esc_html__( 'You do not have sufficient permissions to access this page.' ), 'wp-view-login-only' );
 	}
