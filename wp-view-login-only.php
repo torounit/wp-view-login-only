@@ -25,7 +25,7 @@ add_action( 'login_enqueue_scripts', 'vlo_theme_name_script' );
  */
 function vlo_view_login_only() {
 	global $pagenow;
-	if ( ! is_user_logged_in() && ! is_admin() && ( $pagenow != 'wp-login.php' ) && php_sapi_name() !== 'cli' ) {
+	if ( ! is_user_logged_in() && ! is_admin() && ( 'wp-login.php' !== $pagenow ) && 'cli' !== php_sapi_name() ) {
 		auth_redirect();
 	}
 }
