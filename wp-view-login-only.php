@@ -99,7 +99,7 @@ function vlo_add_login_message() {
 		$message = get_option( 'vlo-message-data' );
 	endif;
 
-	return '<p class="message error vlo-login-attention">' . wp_kses_post( $message ) . '</p>';
+	return '<p class="message error vlo-login-attention">' . esc_html( $message ) . '</p>';
 }
 add_filter( 'login_message', 'vlo_add_login_message' );
 
