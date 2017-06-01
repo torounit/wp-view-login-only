@@ -106,7 +106,7 @@ add_filter( 'login_message', 'vlo_add_login_message' );
 /**
  * Save options.
  */
-function vlo_init() {
+function vlo_save_options() {
 	if ( check_admin_referer( 'vlo-nonce-key', 'vlo-menu' ) ) {
 
 		if ( ! empty( $_POST['vlo-message-data'] ) ) {
@@ -122,7 +122,7 @@ function vlo_init() {
 		wp_safe_redirect( menu_page_url( 'vlo-menu', false ) );
 	}
 }
-add_action( 'admin_init', 'vlo_init' );
+add_action( 'admin_init', 'vlo_save_options' );
 
 /**
  * Show admin notices.
