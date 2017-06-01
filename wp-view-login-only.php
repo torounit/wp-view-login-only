@@ -16,7 +16,7 @@ add_action( 'login_enqueue_scripts', 'vlo_theme_name_script' );
 
 function vlo_view_login_only( $content ) {
 	global $pagenow;
-	if( !is_user_logged_in() && !is_admin() && ( $pagenow != 'wp-login.php' ) && php_sapi_name() !== 'cli' ){
+	if ( ! is_user_logged_in() && ! is_admin() && ( $pagenow != 'wp-login.php' ) && php_sapi_name() !== 'cli' ) {
 		auth_redirect();
 	}
 }
@@ -27,7 +27,7 @@ function vlo_plugins_loaded() {
 }
 add_action( 'init', 'vlo_plugins_loaded' );
 
-//add menubar options
+// add menubar options
 function vlo_add_menu() {
 	add_options_page(
 		'WP View Login Only',
@@ -40,7 +40,7 @@ function vlo_add_menu() {
 add_action( 'admin_menu', 'vlo_add_menu' );
 
 function vlo_options( $message ) {
-	if (! current_user_can( 'activate_plugins' ) ) {
+	if ( ! current_user_can( 'activate_plugins' ) ) {
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ), 'wp-view-login-only' );
 	}
 ?>
@@ -52,7 +52,7 @@ function vlo_options( $message ) {
 		<form action="" id="vlo-menu-form" method="post">
 			<?php
 			wp_nonce_field( 'vlo-nonce-key', 'vlo-menu' );
-			if( esc_textarea( get_option( 'vlo-message-data' ) ) ) :
+			if ( esc_textarea( get_option( 'vlo-message-data' ) ) ) :
 				$message = get_option( 'vlo-message-data' );
 			else :
 				$message = __( 'Welcome to this site. Please log in to continue', 'wp-view-login-only' );
@@ -65,7 +65,7 @@ function vlo_options( $message ) {
 				</tr>
 			</table>
 
-			<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="<?php echo esc_attr( __('Save Changes', 'wp-view-login-only' ) ); ?>"  /></p>  </form>
+			<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="<?php echo esc_attr( __( 'Save Changes', 'wp-view-login-only' ) ); ?>"  /></p>  </form>
 		</form>
 	</div>
 <?php
@@ -73,20 +73,20 @@ function vlo_options( $message ) {
 }
 
 function vlo_add_login_message() {
-	if( !get_option( 'vlo-message-data' ) ) :
+	if ( ! get_option( 'vlo-message-data' ) ) :
 		$message = __( 'Welcome to this site. Please log in to continue', 'wp-view-login-only' );
 	else :
 		$message = get_option( 'vlo-message-data' );
 	endif;
 
-	return '<p class="message error vlo-login-attention">'.$message.'</p>';
+	return '<p class="message error vlo-login-attention">' . $message . '</p>';
 }
 add_filter( 'login_message', 'vlo_add_login_message' );
 
 function vlo_init() {
 	$menu = sanitize_option( $_POST['vlo-menu'] );
-	if( isset( $menu ) && $menu ) :
-		if( check_admin_referer( 'vlo-nonce-key', 'vlo-menu' ) ) :
+	if ( isset( $menu ) && $menu ) :
+		if ( check_admin_referer( 'vlo-nonce-key', 'vlo-menu' ) ) :
 			$e = new WP_Error();
 
 			$data = sanitize_option( $_POST['vlo-message-data'] );
@@ -106,11 +106,11 @@ function vlo_init() {
 add_action( 'admin_init', 'vlo_init' );
 
 function vlo_admin_notices() {
-	if( $messages = get_transient( 'vlo-admin-errors' ) ) :
+	if ( $messages = get_transient( 'vlo-admin-errors' ) ) :
 ?>
 	<div class="updated">
 		<ul>
-			<?php foreach( $messages as $message ) : ?>
+			<?php foreach ( $messages as $message ) : ?>
 			<li><?php echo esc_html( $message ); ?></li>
 			<?php endforeach; ?>
 		</ul>
