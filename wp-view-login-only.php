@@ -117,12 +117,11 @@ function vlo_options_page_content() {
  * Option page contents.
  */
 function vlo_add_login_message() {
-	if ( ! get_option( 'vlo-message-data' ) ) :
+	if ( ! get_option( 'vlo-message-data' ) ) {
 		$message = __( 'Welcome to this site. Please log in to continue', 'wp-view-login-only' );
-	else :
+	} else {
 		$message = get_option( 'vlo-message-data' );
-	endif;
-
+	}
 	return '<p class="message error vlo-login-attention">' . esc_html( $message ) . '</p>';
 }
 
