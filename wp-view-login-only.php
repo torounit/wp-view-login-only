@@ -18,6 +18,7 @@ function vlo_theme_name_script() {
 	wp_enqueue_style( 'wp-view-login-only', plugins_url( 'css/wp-view-login-only.css', __FILE__ ), array(), null );
 	wp_print_styles();
 }
+
 add_action( 'login_enqueue_scripts', 'vlo_theme_name_script' );
 
 /**
@@ -26,24 +27,25 @@ add_action( 'login_enqueue_scripts', 'vlo_theme_name_script' );
 function vlo_view_login_only() {
 	global $pagenow;
 
-	if( 'cli' === php_sapi_name() ) {
+	if ( 'cli' === php_sapi_name() ) {
 		return;
 	}
 
-	if( is_admin() ) {
+	if ( is_admin() ) {
 		return;
 	}
 
-	if( 'wp-login.php' === $pagenow ) {
+	if ( 'wp-login.php' === $pagenow ) {
 		return;
 	}
 
-	if( is_user_logged_in() ) {
+	if ( is_user_logged_in() ) {
 		return;
 	}
 
 	auth_redirect();
 }
+
 add_action( 'init', 'vlo_view_login_only' );
 
 /**
@@ -52,6 +54,7 @@ add_action( 'init', 'vlo_view_login_only' );
 function vlo_plugins_loaded() {
 	load_plugin_textdomain( 'wp-view-login-only', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
+
 add_action( 'init', 'vlo_plugins_loaded' );
 
 /**
@@ -66,6 +69,7 @@ function vlo_add_menu() {
 		'vlo_options_page_content'
 	);
 }
+
 add_action( 'admin_menu', 'vlo_add_menu' );
 
 /**
@@ -75,12 +79,12 @@ function vlo_options_page_content() {
 	if ( ! current_user_can( 'activate_plugins' ) ) {
 		wp_die( esc_html__( 'You do not have sufficient permissions to access this page.' ), 'wp-view-login-only' );
 	}
-?>
+	?>
 
 	<div class="wrap">
-		<h1><?php esc_html_e( 'WP View Login Only' , 'wp-view-login-only' ); ?></h1>
+		<h1><?php esc_html_e( 'WP View Login Only', 'wp-view-login-only' ); ?></h1>
 
-		<p><?php esc_html_e( 'Enter the text to be displayed on the login page.Default message is " Welcome to this site. Please log in to continue ".' , 'wp-view-login-only' ) ?></p>
+		<p><?php esc_html_e( 'Enter the text to be displayed on the login page.Default message is " Welcome to this site. Please log in to continue ".', 'wp-view-login-only' ) ?></p>
 		<form action="" id="vlo-menu-form" method="post">
 			<?php
 			wp_nonce_field( 'vlo-nonce-key', 'vlo-menu' );
@@ -92,15 +96,23 @@ function vlo_options_page_content() {
 			?>
 			<table class="form-table permalink-structure">
 				<tr>
-					<th><label for="vlo-message-data"><?php esc_html_e( 'message' , 'wp-view-login-only' ) ?></label></th>
-					<td><textarea name="vlo-message-data" id="vlo-message-data" cols="80" rows="10"><?php echo esc_textarea( $message ); ?></textarea></td>
+					<th>
+						<label for="vlo-message-data">
+							<?php esc_html_e( 'message', 'wp-view-login-only' ) ?>
+						</label>
+					</th>
+					<td>
+						<textarea name="vlo-message-data" id="vlo-message-data" cols="80" rows="10">
+							<?php echo esc_textarea( $message ); ?>
+						</textarea>
+					</td>
 				</tr>
 			</table>
 
-			<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_attr_e( 'Save Changes', 'wp-view-login-only' ); ?>"  /></p>  </form>
+			<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_attr_e( 'Save Changes', 'wp-view-login-only' ); ?>"/></p>
 		</form>
 	</div>
-<?php
+	<?php
 }
 
 /**
@@ -115,6 +127,7 @@ function vlo_add_login_message() {
 
 	return '<p class="message error vlo-login-attention">' . esc_html( $message ) . '</p>';
 }
+
 add_filter( 'login_message', 'vlo_add_login_message' );
 
 /**
@@ -139,6 +152,7 @@ function vlo_save_options() {
 	}
 
 }
+
 add_action( 'admin_init', 'vlo_save_options' );
 
 /**
@@ -147,14 +161,15 @@ add_action( 'admin_init', 'vlo_save_options' );
 function vlo_admin_notices() {
 	$messages = get_transient( 'vlo-admin-errors' );
 	if ( $messages ) : ?>
-	<div class="updated">
-		<ul>
-			<?php foreach ( $messages as $message ) : ?>
-			<li><?php echo esc_html( $message ); ?></li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
-	<?php
+		<div class="updated">
+			<ul>
+				<?php foreach ( $messages as $message ) : ?>
+					<li><?php echo esc_html( $message ); ?></li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+		<?php
 	endif;
 }
+
 add_action( 'admin_notices', 'vlo_admin_notices' );
