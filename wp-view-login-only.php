@@ -147,7 +147,7 @@ function vlo_save_options() {
 				update_option( 'vlo-message-data', '' );
 			}
 
-			wp_safe_redirect( menu_page_url( 'vlo-menu', false ) );
+			//wp_safe_redirect( menu_page_url( 'vlo-menu', false ) );
 		}
 	}
 
