@@ -102,9 +102,7 @@ function vlo_options_page_content() {
 						</label>
 					</th>
 					<td>
-						<textarea name="vlo-message-data" id="vlo-message-data" cols="80" rows="10">
-							<?php echo esc_textarea( $message ); ?>
-						</textarea>
+						<textarea name="vlo-message-data" id="vlo-message-data" cols="80" rows="10"><?php echo esc_textarea( $message ); ?></textarea>
 					</td>
 				</tr>
 			</table>
