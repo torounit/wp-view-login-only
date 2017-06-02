@@ -122,6 +122,7 @@ function vlo_add_login_message() {
 	} else {
 		$message = get_option( 'vlo-message-data' );
 	}
+
 	return '<p class="message error vlo-login-attention">' . esc_html( $message ) . '</p>';
 }
 
@@ -131,11 +132,12 @@ add_filter( 'login_message', 'vlo_add_login_message' );
  * Save options.
  */
 function vlo_save_options() {
-	if ( ! empty( $_POST['vlo-menu'] ) ) {
+	$nonce = filter_input( INPUT_POST, 'vlo-menu' );
+	if ( ! empty( $nonce ) ) {
 		if ( check_admin_referer( 'vlo-nonce-key', 'vlo-menu' ) ) {
-
-			if ( ! empty( $_POST['vlo-message-data'] ) ) {
-				$data = sanitize_text_field( wp_unslash( $_POST['vlo-message-data'] ) );
+			$input_data = filter_input( INPUT_POST, 'vlo-message-data' );
+			if ( ! empty( $input_data ) ) {
+				$data = sanitize_text_field( wp_unslash( $input_data ) );
 				update_option( 'vlo-message-data', $data );
 
 			} else {
@@ -159,7 +161,7 @@ function vlo_admin_notices() {
 	?>
 	<div class="updated">
 		<ul>
-			<li><?php  esc_html_e( 'Saved the message.', 'wp-view-login-only' )  ?></li>
+			<li><?php esc_html_e( 'Saved the message.', 'wp-view-login-only' ) ?></li>
 		</ul>
 	</div>
 	<?php
