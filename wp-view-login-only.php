@@ -130,8 +130,8 @@ add_action( 'admin_init', 'vlo_save_options' );
  * Show admin notices.
  */
 function vlo_admin_notices() {
-	if ( $messages = get_transient( 'vlo-admin-errors' ) ) :
-?>
+	$messages = get_transient( 'vlo-admin-errors' );
+	if ( $messages ) : ?>
 	<div class="updated">
 		<ul>
 			<?php foreach ( $messages as $message ) : ?>
@@ -139,7 +139,7 @@ function vlo_admin_notices() {
 			<?php endforeach; ?>
 		</ul>
 	</div>
-<?php
+	<?php
 	endif;
 }
 add_action( 'admin_notices', 'vlo_admin_notices' );
