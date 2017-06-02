@@ -137,14 +137,14 @@ function vlo_save_options() {
 			if ( ! empty( $_POST['vlo-message-data'] ) ) {
 				$data = sanitize_text_field( wp_unslash( $_POST['vlo-message-data'] ) );
 				update_option( 'vlo-message-data', $data );
-				$e = new WP_Error();
-				$e->add( 'error', __( 'saved the message', 'wp-view-login-only' ) );
-				set_transient( 'vlo-admin-errors', $e->get_error_messages(), 10 );
+
 			} else {
 				update_option( 'vlo-message-data', '' );
 			}
 
-			//wp_safe_redirect( menu_page_url( 'vlo-menu', false ) );
+			add_action( 'admin_notices', 'vlo_admin_notices' );
+			wp_safe_redirect( menu_page_url( 'vlo-menu', false ) );
+
 		}
 	}
 
@@ -156,17 +156,12 @@ add_action( 'admin_init', 'vlo_save_options' );
  * Show admin notices.
  */
 function vlo_admin_notices() {
-	$messages = get_transient( 'vlo-admin-errors' );
-	if ( $messages ) : ?>
-		<div class="updated">
-			<ul>
-				<?php foreach ( $messages as $message ) : ?>
-					<li><?php echo esc_html( $message ); ?></li>
-				<?php endforeach; ?>
-			</ul>
-		</div>
-		<?php
-	endif;
+	?>
+	<div class="updated">
+		<ul>
+			<li><?php  esc_html_e( 'Saved the message.', 'wp-view-login-only' )  ?></li>
+		</ul>
+	</div>
+	<?php
 }
 
-add_action( 'admin_notices', 'vlo_admin_notices' );
