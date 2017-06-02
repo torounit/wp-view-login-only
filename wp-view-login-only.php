@@ -25,9 +25,24 @@ add_action( 'login_enqueue_scripts', 'vlo_theme_name_script' );
  */
 function vlo_view_login_only() {
 	global $pagenow;
-	if ( ! is_user_logged_in() && ! is_admin() && ( 'wp-login.php' !== $pagenow ) && 'cli' !== php_sapi_name() ) {
-		auth_redirect();
+
+	if( 'cli' === php_sapi_name() ) {
+		return;
 	}
+
+	if( is_admin() ) {
+		return;
+	}
+
+	if( 'wp-login.php' === $pagenow ) {
+		return;
+	}
+
+	if( is_user_logged_in() ) {
+		return;
+	}
+
+	auth_redirect();
 }
 add_action( 'init', 'vlo_view_login_only' );
 
